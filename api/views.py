@@ -58,6 +58,9 @@ def pharacter_list(request):
                 "name": str(data['name'])
             }
             #print(data)
+            find_pharacter = Pharacter.objects.filter(name__contains=str(data['name'])).values()
+            if len(find_pharacter)>0:
+                return JSONResponse(['character is already registered'], status=400)
             result={}
             serializer = PharacterSerializers(data=data_ph)
             if serializer.is_valid():
